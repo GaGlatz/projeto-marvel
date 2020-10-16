@@ -3,26 +3,148 @@ const keypublic = '957d8f2a43c00923fd34c24674ec038b'
 const keyprivate = '725ceac1279acebcd092b3e404533bcaabc0bbdb'
 var string = ts.toString()+keyprivate.toString()+keypublic.toString()
 var hash = MD5(string)
+var ofse = 0
+var maxpag = 0
+var resta = 0
 
-fetch(`http://gateway.marvel.com/v1/public/series/22547/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=100`)
+function mudar1() {
+        if (ofse>0) {
+                ofse = 0
+                fetch(`http://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=10&orderBy=-modified&offset=0`)
+                        .then(function(response){
+                                return response.json()
+                        })
+                        .then(function(arquivo){
+                                let resultado = arquivo.data.results
+                                for (let index = 0; index < resultado.length; index++) {
+                                        let element = resultado[index]
+    
+                                        let foto = document.getElementById('card__image'+index)
+                                        let nome = document.getElementById('card__title'+index)
+                                        let decricao = document.getElementById('card__description'+index)
+    
+                                        let thamb = `${element.thumbnail.path}.${element.thumbnail.extension}`
+                                        let name = element.name
+                                        let descri = element.description
+    
+                                        foto.src = thamb
+                                        nome.textContent = name
+                                        decricao.textContent = descri              
+                                }
+                        })
+                ;
+        }
+}
+
+function mudarme() {
+    if (ofse>0) {
+        ofse -= 10
+        fetch(`http://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=10&orderBy=-modified&offset=${ofse}`)
+        .then(function(response){
+            return response.json()
+        })
+        .then(function(arquivo){
+            let resultado = arquivo.data.results
+            for (let index = 0; index < resultado.length; index++) {
+                    let element = resultado[index]
+    
+                    let foto = document.getElementById('card__image'+index)
+                    let nome = document.getElementById('card__title'+index)
+                    let decricao = document.getElementById('card__description'+index)
+    
+                    let thamb = `${element.thumbnail.path}.${element.thumbnail.extension}`
+                    let name = element.name
+                    let descri = element.description
+    
+                    foto.src = thamb
+                    nome.textContent = name
+                    decricao.textContent = descri              
+            }
+        })
+    ;        
+    }
+}
+
+function mudarma() {
+        if (ofse<maxpag) {
+                ofse += 10
+                fetch(`http://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=10&orderBy=-modified&offset=${ofse}`)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(arquivo){
+                    let resultado = arquivo.data.results
+                    for (let index = 0; index < resultado.length; index++) {
+                            let element = resultado[index]
+            
+                            let foto = document.getElementById('card__image'+index)
+                            let nome = document.getElementById('card__title'+index)
+                            let decricao = document.getElementById('card__description'+index)
+            
+                            let thamb = `${element.thumbnail.path}.${element.thumbnail.extension}`
+                            let name = element.name
+                            let descri = element.description
+            
+                            foto.src = thamb
+                            nome.textContent = name
+                            decricao.textContent = descri              
+                    }
+                })
+            ;        
+        }
+}
+
+function mudarul() {
+        if (ofse<maxpag) {
+                ofse = maxpag
+                fetch(`http://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=10&orderBy=-modified&offset=${ofse}`)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(arquivo){
+                    let resultado = arquivo.data.results
+                    for (let index = 0; index < resultado.length; index++) {
+                            let element = resultado[index]
+            
+                            let foto = document.getElementById('card__image'+index)
+                            let nome = document.getElementById('card__title'+index)
+                            let decricao = document.getElementById('card__description'+index)
+            
+                            let thamb = `${element.thumbnail.path}.${element.thumbnail.extension}`
+                            let name = element.name
+                            let descri = element.description
+            
+                            foto.src = thamb
+                            nome.textContent = name
+                            decricao.textContent = descri              
+                    }
+                })
+            ;
+        }
+}
+
+fetch(`http://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${keypublic}&hash=${hash}&limit=10&orderBy=-modified&offset=0`)
     .then(function(response){
         return response.json()
     })
     .then(function(arquivo){
         const container = document.getElementById('container')
         let resultado = arquivo.data.results
+        let totpag = Math.floor(arquivo.data.total / 10)
+        maxpag = totpag * 10
+        console.log(maxpag)
         for (let index = 0; index < resultado.length; index++) {
-                let element = resultado[index];
+                let element = resultado[index]
                 let thamb = `${element.thumbnail.path}.${element.thumbnail.extension}`
                 let name = element.name
                 let descri = element.description
-                createnewhero(thamb, name, descri, container)      
+                createnewhero(thamb, name, descri, container, index)      
         }
         console.log(arquivo)
         console.log(resultado)
     })
 ;
-function createnewhero(foto, nome, descri, container) {
+function createnewhero(foto, nome, descri, container, index) {
     let divpai = document.createElement('div')
     let divfilho = document.createElement('div')
     let image = document.createElement('img')
@@ -36,11 +158,14 @@ function createnewhero(foto, nome, descri, container) {
     divfilho.appendChild(name)
     divfilho.appendChild(description)
     container.appendChild(divpai)
-    divpai.classList.add('card')
-    image.classList.add('card__image')
-    divfilho.classList.add('card__content')
-    name.classList.add('card__title')
-    description.classList.add('card__description')
+    divpai.setAttribute('class', 'card')
+    image.setAttribute('class', 'card__image')
+    image.setAttribute('id', 'card__image'+index)
+    divfilho.setAttribute('class', 'card__content')
+    name.setAttribute('class', 'card__title')
+    name.setAttribute('id', 'card__title'+index)
+    description.setAttribute('class', 'card__description')
+    description.setAttribute('id', 'card__description'+index)
 }
 
 function timestamp() {

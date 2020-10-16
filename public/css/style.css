@@ -86,3 +86,24 @@
     text-overflow: ellipsis;
     margin: 0;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Piazzolla', serif;
+}
+
+.pagination__button {
+    font-size: 1.4rem;
+    color: #2f3542;
+    border: none;
+    background-color: transparent;
+    transition: all 0.4s ease-in-out;
+    margin: 0.3rem;
+}
+
+.pagination__button:hover {
+    color: #ff6b81;
+    cursor: pointer;
+}
