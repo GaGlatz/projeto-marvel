@@ -91,11 +91,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
     font-family: 'Piazzolla', serif;
+    box-sizing: border-box;
 }
 
 .pagination__button {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     color: #2f3542;
     border: none;
     background-color: transparent;

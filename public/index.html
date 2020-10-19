@@ -6,17 +6,25 @@
     <title>Marvel App</title>
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/script.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
 </head>
 <body>
-    <div class="container" id="container">
-        
-    </div>
+    <div class="container" id="container"></div>
     <div class="pagination">
-        <button onclick="mudar1()" class="pagination__button">&#9666&#9666</button>
-        <button onclick="mudarme()" class="pagination__button">&#9666</button>
-        <button onclick="mudarma()" class="pagination__button">&#9656</button>
-        <button onclick="mudarul()" class="pagination__button">&#9656&#9656</button>   
+        <button onclick="firstPage()" class="pagination__button">
+            <i class="fas fa-backward"></i>
+        </button>
+        <button onclick="previousPage()" class="pagination__button">
+            <i class="fas fa-caret-left"></i>
+        </button>
+        <button onclick="nextPage()" class="pagination__button">
+            <i class="fas fa-caret-right"></i>
+        </button>
+        <button onclick="lastPage()" class="pagination__button">
+            <i class="fas fa-forward"></i>
+        </button>   
     </div>
+    <script src="/js/md5.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
